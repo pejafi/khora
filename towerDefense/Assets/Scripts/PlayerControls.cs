@@ -68,13 +68,14 @@ public class PlayerControls : MonoBehaviour
 					
 						if( hitTag == "Building" )
 						{
-							GearCamera.position = hit.transform.position + Vector3.up;
+							GearCamera.position = hit.transform.position + Vector3.up*2;
 							WeaponSystem weapon = hit.transform.gameObject.GetComponentInChildren<WeaponSystem>();
-							weapon.m_autoAimTarget = false;
-							weapon.transform.SetParent(GearCamera);
+							weapon.m_autoAim = false;
+							weapon.transform.SetParent(GearCamera.GetComponentInChildren<Shoot>().transform);
 							weapon.transform.position = GearCamera.position;
 							weapon.transform.eulerAngles = GearCamera.eulerAngles; 
-							GearCamera.GetComponent<Shoot>().weapon = weapon;
+							GearCamera.GetComponentInChildren<Shoot>().weapon = weapon;
+							//weapon.transform.SetParent(GearCamera.GetComponentInChildren<Shoot>().transform);
 							//if(!hit.transform.gameObject.GetComponent<Building>().HasUpgraded())
 							//	m_buildingSelected = hit.transform.gameObject;
 						}
