@@ -8,6 +8,7 @@ public class PlayerControls : MonoBehaviour
 	public  Camera		m_camera		=	null;
 	public 	LayerMask 	m_maskPlaceBuilding;
 	public  float       m_buildingGroundPos = 1.0f;
+	public Transform GearCamera;
 	private GameObject 	m_spawnedBuilding 	= null;
 	public 	LayerMask 	m_maskSelectBuilding;
 	private GameObject  m_buildingSelected  = null;
@@ -67,8 +68,15 @@ public class PlayerControls : MonoBehaviour
 					
 						if( hitTag == "Building" )
 						{
-							if(!hit.transform.gameObject.GetComponent<Building>().HasUpgraded())
-								m_buildingSelected = hit.transform.gameObject;
+							GearCamera.position = hit.transform.position + Vector3.up;
+							WeaponSystem weapon = hit.transform.gameObject.GetComponentInChildren<WeaponSystem>();
+							weapon.m_autoAimTarget = false;
+							weapon.transform.SetParent(GearCamera);
+							weapon.transform.position = GearCamera.position;
+							weapon.transform.eulerAngles = GearCamera.eulerAngles; 
+							GearCamera.GetComponent<Shoot>().weapon = weapon;
+							//if(!hit.transform.gameObject.GetComponent<Building>().HasUpgraded())
+							//	m_buildingSelected = hit.transform.gameObject;
 						}
 					}
 				}
