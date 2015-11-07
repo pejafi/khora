@@ -27,7 +27,7 @@ public class PlayerControls : MonoBehaviour
 		if(m_spawnedBuilding)
 		{
 			RaycastHit hit;
-			if (Physics.Raycast	(m_camera.ScreenPointToRay (Input.mousePosition), out hit, Mathf.Infinity, m_maskPlaceBuilding))
+			if (Physics.Raycast(m_camera.transform.position, m_camera.transform.forward, out hit, Mathf.Infinity, m_maskPlaceBuilding))
 			{
 				string hitTag = hit.transform.gameObject.tag;
 				
