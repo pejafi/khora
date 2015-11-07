@@ -37,7 +37,7 @@ public class PlayerControls : MonoBehaviour
 				}
 			}
 			
-			if(Input.GetMouseButtonDown(0))
+			if(Input.GetButtonDown("Fire1"))
 			{
 				if(m_spawnController)
 				{
@@ -58,10 +58,10 @@ public class PlayerControls : MonoBehaviour
 		{
 			if(!m_buildingSelected)
 			{
-				if(Input.GetMouseButtonDown(0))
+				if(Input.GetButtonDown("Fire1"))
 				{
 					RaycastHit hit;
-					if (Physics.Raycast	(m_camera.ScreenPointToRay (Input.mousePosition), out hit, Mathf.Infinity, m_maskSelectBuilding))
+					if (Physics.Raycast(m_camera.transform.position, m_camera.transform.forward, out hit, Mathf.Infinity, m_maskSelectBuilding))
 					{
 						string hitTag = hit.transform.gameObject.tag;
 					
@@ -75,7 +75,7 @@ public class PlayerControls : MonoBehaviour
 			}
 			else
 			{
-				if(Input.GetMouseButtonDown(1))
+				if(Input.GetButtonDown("Fire1"))
 				{
 					DeselectBuilding();
 				}
@@ -87,8 +87,39 @@ public class PlayerControls : MonoBehaviour
 	{
 		m_buildingSelected = null;
 	}
-	
-	void OnGUI()
+
+	public void SpawnBuilding(){
+		m_spawnedBuilding = Instantiate (m_build1, m_build1.transform.position, m_build1.transform.rotation) as GameObject;
+
+	}
+
+	public void UpgradeBuilding(){
+		if (!m_buildingSelected)
+			return;
+		if (m_buildingSelected.GetComponent<Building> ().HasUpgraded ()) {
+			// ignore
+		} else {
+			if (m_spawnController.CanPurchase (m_buildingSelected.GetComponent<Building> ().m_upgradeCost)) {
+				//if (GUI.Button (new Rect (upgradeGUIStartPos.x, upgradeGUIStartPos.y, buttonSize.x, buttonSize.y), "BUY - " + m_buildingSelected.GetComponent<Building> ().m_upgradeCost + "\nPower Upgrade")) {
+					m_buildingSelected.GetComponent<Building> ().PurchaseUpgrade ();
+					m_spawnController.MakePurchase (m_buildingSelected.GetComponent<Building> ().m_upgradeCost);
+					DeselectBuilding ();
+			/*	}
+			
+				if (GUI.Button (new Rect (upgradeGUIStartPos.x + buttonUpgradeSize.x + buttonUpgradeSpace.x, upgradeGUIStartPos.y, buttonSize.x, buttonSize.y), "Cancel Purchase")) {
+					DeselectBuilding ();
+				}
+			} else {
+				GUI.Button (new Rect (upgradeGUIStartPos.x, upgradeGUIStartPos.y, buttonSize.x, buttonSize.y), "OUT OF CASH\nPower Upgrade");
+			
+				if (GUI.Button (new Rect (upgradeGUIStartPos.x + buttonUpgradeSize.x + buttonUpgradeSpace.x, upgradeGUIStartPos.y, buttonSize.x, buttonSize.y), "Cancel Purchase")) {
+					DeselectBuilding ();
+				}				
+			}	*/
+			}
+		}
+	}
+	/*void OnGUI()
 	{
 		if(!m_spawnController)
 			return;
@@ -196,5 +227,5 @@ public class PlayerControls : MonoBehaviour
 				}				
 			}	
 		}
-	}
+	}*/
 }
