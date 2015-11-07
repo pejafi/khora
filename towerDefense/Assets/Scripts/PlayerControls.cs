@@ -72,8 +72,8 @@ public class PlayerControls : MonoBehaviour
 							WeaponSystem weapon = hit.transform.gameObject.GetComponentInChildren<WeaponSystem>();
 							weapon.m_autoAim = false;
 							weapon.transform.SetParent(GearCamera.GetComponentInChildren<Shoot>().transform);
-							weapon.transform.position = GearCamera.position;
-							weapon.transform.eulerAngles = GearCamera.eulerAngles; 
+							weapon.transform.localPosition = Vector3.zero;
+							weapon.transform.localRotation = Quaternion.Euler(Vector3.zero); 
 							GearCamera.GetComponentInChildren<Shoot>().weapon = weapon;
 							//weapon.transform.SetParent(GearCamera.GetComponentInChildren<Shoot>().transform);
 							//if(!hit.transform.gameObject.GetComponent<Building>().HasUpgraded())
